@@ -1,0 +1,7 @@
+Three small changes made our weekly content review much faster:
+
+1. We write the hook before the rest of the post.
+2. We remove one idea from every draft.
+3. We end with one clear question.
+
+Which step would improve your content workflow first?

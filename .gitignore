@@ -1,0 +1,54 @@
+# Dependencies and package-manager state
+node_modules/
+.pnp/
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js and build output
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+service-account*.json
+firebase-adminsdk*.json
+
+# Test, coverage, and tooling output
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+.eslintcache
+.turbo/
+
+# Runtime and debug logs
+*.log
+logs/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
