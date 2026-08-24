@@ -5,8 +5,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "Arial", "sans-serif"],
-        editorial: ["Georgia", "Times New Roman", "serif"],
+        sans: ["var(--font-roboto-slab)", "Arial", "sans-serif"],
+        editorial: ["var(--font-roboto-slab)", "Arial", "sans-serif"],
         mono: ["var(--font-geist-mono)", "monospace"]
       },
       colors: {

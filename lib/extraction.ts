@@ -59,10 +59,11 @@ async function preprocessImage(buffer: Buffer, threshold = false) {
       kernel: sharp.kernel.lanczos3,
     })
     .grayscale()
+    .linear(1.18, -12)
     .normalize()
-    .sharpen({ sigma: 1 });
+    .sharpen({ sigma: 1.2 });
 
-  if (threshold) image = image.threshold(180);
+  if (threshold) image = image.threshold(175);
 
   return image.png({ compressionLevel: 6 }).toBuffer();
 }
@@ -100,14 +101,9 @@ export async function extractImageText(buffer: Buffer): Promise<ImageExtractionR
   const prepared = await preprocessImage(buffer);
   const primary = pageResult((await recognize(prepared, PSM.AUTO)).data);
 
-  // Screenshots and logo sheets often contain many small, disconnected text
-  // regions. AUTO can focus on the dominant heading and skip those regions,
-  // so compare it with Tesseract's sparse-text layout mode as well.
   const sparse = pageResult((await recognize(prepared, PSM.SPARSE_TEXT)).data);
   const best = selectBetterResult(primary, sparse);
 
-  // A second, binarized pass is useful for faint or low-contrast scans, while
-  // avoiding the detail loss of thresholding on every colourful screenshot.
   if (best.confidence >= OCR_LOW_CONFIDENCE || !best.text) return best;
 
   const thresholded = await preprocessImage(buffer, true);
@@ -116,14 +112,34 @@ export async function extractImageText(buffer: Buffer): Promise<ImageExtractionR
 }
 
 export function normalizeExtractedText(value: string) {
-  return value
+  if (!value) return "";
+
+  const lines = value
     .replace(/\r\n/g, "\n")
     .split("\n")
-    .map((line) => line.replace(/[ \t]+/g, " ").trim())
+    .map((line) => line.replace(/[ \t]+/g, " ").trim());
+
+  const cleanedLines: string[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+
+    // Filter out standalone single-character noise symbols (+, ~, |, ®, ©, °, ^, etc.)
+    if (/^[+~|°§©®*^\\/=#_]$/.test(line)) {
+      continue;
+    }
+
+    // Clean stray OCR prefix artifacts e.g. "N 1. Training..." -> "1. Training...", "il For example..." -> "For example..."
+    line = line.replace(/^[A-Za-z]\s+(\d+\.)/, "$1");
+    line = line.replace(/^il\s+([A-Z])/, "$1");
+    line = line.replace(/^[+&]\s+([A-Z])/, "$1");
+    line = line.replace(/^O\s+(Steps:)/i, "$1");
+
+    cleanedLines.push(line);
+  }
+
+  return cleanedLines
     .join("\n")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
-
-
-

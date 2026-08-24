@@ -1,6 +1,6 @@
 # Social Media Content Analyzer
 
-SocialForge is a focused MVP for turning a social-media document, screenshot, or scanned image into a practical editorial brief. Upload a PDF or PNG/JPG, review the extracted text, and get a structured Groq analysis covering the hook, clarity, audience appeal, call to action, and an improved version.
+SocialCraft is a focused MVP for turning a social-media document, screenshot, or scanned image into a practical editorial brief. Upload a PDF or PNG/JPG, review the extracted text, and get a structured analysis covering the hook, clarity, audience appeal, call to action, and an improved version.
 
 ## Features
 
