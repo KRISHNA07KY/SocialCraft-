@@ -1,5 +1,6 @@
 import sharp from "sharp";
 import { createWorker, OEM, PSM } from "tesseract.js";
+import path from "path";
 
 const OCR_TARGET_WIDTH = 2_400;
 const OCR_LOW_CONFIDENCE = 55;
@@ -17,8 +18,11 @@ let recognitionQueue = Promise.resolve();
 
 function getOcrWorker() {
   if (!workerPromise) {
-    workerPromise = createWorker("eng", OEM.LSTM_ONLY, { logger: () => undefined })
-      .then(async (worker) => {
+    workerPromise = createWorker("eng", OEM.LSTM_ONLY, { 
+      langPath: path.join(process.cwd()),
+      gzip: false,
+      logger: () => undefined 
+    }).then(async (worker) => {
         await worker.setParameters({
           preserve_interword_spaces: "1",
           user_defined_dpi: "300",
