@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { AnalysisResults } from "@/components/AnalysisResults";
-import { AnalysisSectionNav } from "@/components/AnalysisSectionNav";
 import { BrandMark } from "@/components/BrandMark";
 import { ProcessingSteps } from "@/components/ProcessingSteps";
 import { ProductSidebar, MobileMenuButton, type ProfileSummary, type ProductView } from "@/components/ProductSidebar";
@@ -319,12 +318,7 @@ function HelpView() {
               </p>
             )}
           </form>
-          <p className="mt-4 text-sm text-muted">
-            Need direct help?{" "}
-            <a className="font-bold text-primary hover:underline" href="mailto:support@socialcraft.app">
-              Email support
-            </a>
-          </p>
+
         </section>
       </div>
     </div>
@@ -681,24 +675,19 @@ export function AnalyzerWorkspace() {
         )}
 
         {analysis && (
-          <div className="relative lg:flex lg:items-start lg:gap-6">
-            <div className="min-w-0 flex-1">
-              <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-                <div>
-                  <span className="rounded-md bg-primary/10 px-2.5 py-1 text-xs font-extrabold uppercase tracking-wider text-primary">
-                    AI ANALYSIS
-                  </span>
-                  <h2 className="mt-1 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-                    What your content is saying
-                  </h2>
-                </div>
-                <p className="text-sm text-muted">Grounded in the source text provided.</p>
+          <div>
+            <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <span className="rounded-md bg-primary/10 px-2.5 py-1 text-xs font-extrabold uppercase tracking-wider text-primary">
+                  AI ANALYSIS
+                </span>
+                <h2 className="mt-1 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+                  What your content is saying
+                </h2>
               </div>
-              <AnalysisResults analysis={analysis} />
+              <p className="text-sm text-muted">Grounded in the source text provided.</p>
             </div>
-
-            {/* Analysis Section Mini Navigation */}
-            <AnalysisSectionNav />
+            <AnalysisResults analysis={analysis} />
           </div>
         )}
       </div>
@@ -730,7 +719,7 @@ export function AnalyzerWorkspace() {
 
   return (
     <div className="grid-texture min-h-screen lg:flex">
-      <ProductSidebar activeView={view} mobileOpen={mobileOpen} profile={profile} onNavigate={navigate} onMobileToggle={setMobileOpen} />
+      <ProductSidebar activeView={view} mobileOpen={mobileOpen} profile={profile} showAnalysisNav={!!analysis && view === "analyze"} onNavigate={navigate} onMobileToggle={setMobileOpen} />
       <div className="min-w-0 flex-1">
         <header className="flex items-center justify-between border-b border-line bg-surface/90 px-4 py-3 backdrop-blur lg:hidden">
           <div className="flex items-center gap-3">
@@ -745,7 +734,7 @@ export function AnalyzerWorkspace() {
             <MobileMenuButton onClick={() => setMobileOpen(true)} />
           </div>
         </header>
-        <main className="mx-auto min-h-[calc(100vh-64px)] max-w-[1400px] px-4 pb-10 pt-3 sm:px-7 sm:pt-5 lg:min-h-screen lg:px-10 xl:px-14">
+        <main className="mx-auto min-h-[calc(100vh-64px)] max-w-[1400px] px-4 pb-8 pt-2 sm:px-7 sm:pt-3 lg:min-h-screen lg:px-10 xl:px-14">
           <div className="mb-2 hidden justify-end lg:flex">
             <ThemeToggle />
           </div>

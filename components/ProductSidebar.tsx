@@ -1,7 +1,8 @@
 "use client";
 
-import { CircleHelp, History, LayoutDashboard, Menu, Palette, ScanText, UserRound, X } from "lucide-react";
+import { CircleHelp, History, LayoutDashboard, Menu, Settings, ScanText, UserRound, X } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
+import { AnalysisSectionNav } from "@/components/AnalysisSectionNav";
 
 export type ProductView = "dashboard" | "analyze" | "history" | "settings" | "help" | "profile";
 export type ProfileSummary = { displayName: string | null; email: string | null; avatarUrl: string | null };
@@ -10,6 +11,7 @@ type Props = {
   activeView: ProductView;
   mobileOpen: boolean;
   profile?: ProfileSummary | null;
+  showAnalysisNav?: boolean;
   onNavigate: (view: ProductView) => void;
   onMobileToggle: (open: boolean) => void;
 };
@@ -18,11 +20,11 @@ const navigation = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "analyze", label: "Analyze", icon: ScanText },
   { id: "history", label: "History", icon: History },
-  { id: "settings", label: "Settings", icon: Palette },
+  { id: "settings", label: "Settings", icon: Settings },
   { id: "help", label: "Help", icon: CircleHelp },
 ] as const;
 
-function Navigation({ activeView, onNavigate, onMobileToggle }: Omit<Props, "mobileOpen" | "profile">) {
+function Navigation({ activeView, onNavigate, onMobileToggle }: Omit<Props, "mobileOpen" | "profile" | "showAnalysisNav">) {
   return (
     <nav aria-label="Primary navigation" className="space-y-1">
       {navigation.map(({ id, label, icon: Icon }) => (
@@ -86,10 +88,10 @@ function ProfileButton({
   );
 }
 
-function SidebarContent({ activeView, profile, onNavigate, onMobileToggle }: Omit<Props, "mobileOpen">) {
+function SidebarContent({ activeView, profile, showAnalysisNav, onNavigate, onMobileToggle }: Omit<Props, "mobileOpen">) {
   return (
     <>
-      <div className="mb-7 flex items-center gap-3 px-2">
+      <div className="mb-5 flex items-center gap-3 px-2">
         <BrandMark />
         <div>
           <p className="text-[14px] font-extrabold tracking-[0.16em] text-ink">SOCIALCRAFT</p>
@@ -97,7 +99,12 @@ function SidebarContent({ activeView, profile, onNavigate, onMobileToggle }: Omi
         </div>
       </div>
       <Navigation activeView={activeView} onNavigate={onNavigate} onMobileToggle={onMobileToggle} />
-      <div className="mt-auto space-y-3.5 border-t border-line pt-5">
+      {showAnalysisNav && (
+        <div className="mt-5 border-t border-line pt-4">
+          <AnalysisSectionNav onNavigate={() => onMobileToggle(false)} />
+        </div>
+      )}
+      <div className="mt-auto space-y-3 border-t border-line pt-4">
         <div className="px-1">
           <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Account</p>
         </div>
@@ -111,14 +118,14 @@ function SidebarContent({ activeView, profile, onNavigate, onMobileToggle }: Omi
   );
 }
 
-export function ProductSidebar({ activeView, mobileOpen, profile, onNavigate, onMobileToggle }: Props) {
+export function ProductSidebar({ activeView, mobileOpen, profile, showAnalysisNav, onNavigate, onMobileToggle }: Props) {
   return (
     <>
       <aside
         className="hidden w-[250px] shrink-0 border-r border-line bg-surface px-4 py-5 lg:flex lg:min-h-screen lg:flex-col"
         aria-label="Product navigation"
       >
-        <SidebarContent activeView={activeView} profile={profile} onNavigate={onNavigate} onMobileToggle={onMobileToggle} />
+        <SidebarContent activeView={activeView} profile={profile} showAnalysisNav={showAnalysisNav} onNavigate={onNavigate} onMobileToggle={onMobileToggle} />
       </aside>
       {mobileOpen && (
         <button
@@ -134,7 +141,7 @@ export function ProductSidebar({ activeView, mobileOpen, profile, onNavigate, on
         }`}
         aria-label="Mobile product navigation"
       >
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <BrandMark />
             <div>
@@ -146,7 +153,7 @@ export function ProductSidebar({ activeView, mobileOpen, profile, onNavigate, on
             <X aria-hidden="true" className="h-5 w-5" />
           </button>
         </div>
-        <SidebarContent activeView={activeView} profile={profile} onNavigate={onNavigate} onMobileToggle={onMobileToggle} />
+        <SidebarContent activeView={activeView} profile={profile} showAnalysisNav={showAnalysisNav} onNavigate={onNavigate} onMobileToggle={onMobileToggle} />
       </aside>
     </>
   );
