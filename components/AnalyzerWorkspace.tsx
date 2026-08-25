@@ -329,7 +329,7 @@ function SettingsView({ theme, onThemeChange }: { theme: ThemeName; onThemeChang
   const options = [
     { id: "sunrise", label: "Sunrise", description: "Warm light background, cream surfaces, dark readable text." },
     { id: "sunset", label: "Sunset", description: "Deep terracotta & warm dark red surfaces with rich contrast." },
-    { id: "moon", label: "Moon", description: "Deep navy & charcoal blue-black canvas for quiet night editing." },
+    { id: "midnight", label: "MidNight", description: "Near-black space canvas with a faint starfield for quiet night editing." },
   ] as const;
 
   return (
@@ -346,7 +346,7 @@ function SettingsView({ theme, onThemeChange }: { theme: ThemeName; onThemeChang
           </span>
           <div>
             <h2 className="text-xl font-bold text-ink">Themes</h2>
-            <p className="mt-1 text-sm text-muted">Sunrise is the light experience; Sunset and Moon offer rich dark experiences.</p>
+            <p className="mt-1 text-sm text-muted">Sunrise is the light experience; Sunset and MidNight offer rich dark experiences.</p>
           </div>
         </div>
         <div className="mt-5 grid gap-4 md:grid-cols-3">
@@ -734,7 +734,7 @@ export function AnalyzerWorkspace() {
             <MobileMenuButton onClick={() => setMobileOpen(true)} />
           </div>
         </header>
-        <main className="mx-auto min-h-[calc(100vh-64px)] max-w-[1400px] px-4 pb-8 pt-2 sm:px-7 sm:pt-3 lg:min-h-screen lg:px-10 xl:px-14">
+        <main className="mx-auto max-w-[1400px] px-4 pb-8 pt-2 sm:px-7 sm:pt-3 lg:px-10 xl:px-14">
           <div className="mb-2 hidden justify-end lg:flex">
             <ThemeToggle />
           </div>

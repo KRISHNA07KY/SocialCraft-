@@ -122,7 +122,7 @@ export function ProductSidebar({ activeView, mobileOpen, profile, showAnalysisNa
   return (
     <>
       <aside
-        className="hidden w-[250px] shrink-0 border-r border-line bg-surface px-4 py-5 lg:flex lg:min-h-screen lg:flex-col"
+        className="hidden w-[250px] shrink-0 overflow-y-auto border-r border-line bg-surface px-4 py-5 lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col"
         aria-label="Product navigation"
       >
         <SidebarContent activeView={activeView} profile={profile} showAnalysisNav={showAnalysisNav} onNavigate={onNavigate} onMobileToggle={onMobileToggle} />

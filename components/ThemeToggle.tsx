@@ -3,12 +3,12 @@
 import { Moon, Palette, Sun, Sunset } from "lucide-react";
 import { useTheme, type ThemeName } from "@/components/ThemeProvider";
 
-const labels: Record<ThemeName, string> = { sunrise: "Sunrise", sunset: "Sunset", moon: "Moon" };
-const icons = { sunrise: Sun, sunset: Sunset, moon: Moon };
+const labels: Record<ThemeName, string> = { sunrise: "Sunrise", sunset: "Sunset", midnight: "MidNight" };
+const icons = { sunrise: Sun, sunset: Sunset, midnight: Moon };
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const nextTheme = theme === "sunrise" ? "sunset" : theme === "sunset" ? "moon" : "sunrise";
+  const nextTheme = theme === "sunrise" ? "sunset" : theme === "sunset" ? "midnight" : "sunrise";
   const Icon = icons[theme];
   return <button type="button" className="theme-toggle" onClick={() => setTheme(nextTheme)} aria-label={`${labels[theme]} theme. Switch to ${labels[nextTheme]} theme.`} title={`${labels[theme]} theme · switch to ${labels[nextTheme]}`}><Icon aria-hidden="true" className="h-4 w-4" /><span>{labels[theme]}</span></button>;
 }

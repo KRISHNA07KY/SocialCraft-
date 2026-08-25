@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "Turn social media documents, screenshots, and posts into clear editorial briefs."
 };
 
-const themeScript = `(function(){try{var t=localStorage.getItem("socialcraft-theme")||localStorage.getItem("socialforge-theme");if(t&&["sunrise","sunset","moon"].indexOf(t)!==-1){document.documentElement.dataset.theme=t;}}catch(e){}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem("socialcraft-theme")||localStorage.getItem("socialforge-theme");if(t==="moon")t="midnight";if(t&&["sunrise","sunset","midnight"].indexOf(t)!==-1){document.documentElement.dataset.theme=t;}}catch(e){}})();`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

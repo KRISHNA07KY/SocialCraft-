@@ -73,8 +73,17 @@ npm run build
 
 The automated tests cover file-signature validation and AI response schema validation. Full OCR and Groq calls require their runtime assets and credentials, so those are manual integration checks using the UI.
 
+## Render deployment
 
-The API routes use Node.js because PDF parsing and Tesseract are server-side dependencies. OCR is CPU- and memory-intensive; for larger production workloads, move OCR to a dedicated worker. The MVP persists metadata, extracted text, and analysis results in Firestore, but never uploads the original files.
+Live at <https://socialcraft-3lia.onrender.com>.
+
+1. Push the repository to GitHub and create a new Web Service on Render pointing at it.
+2. Build command: `npm install && npm run build`. Start command: `npm start`.
+3. Under the service's **Environment** tab, add `GROQ_API_KEY` (and optionally `GROQ_MODEL`).
+4. Enable Firebase Authentication and Firestore, then publish `firestore.rules` for the same Firebase project.
+5. After adding or changing any environment variable, trigger **Manual Deploy → Deploy latest commit** (or **Restart service**) — Render only injects updated env vars into a fresh container, so an existing running instance won't pick up a newly added key until it restarts.
+
+The API routes use Node.js because PDF parsing and Tesseract are server-side dependencies, so the service must run as a Node web service (not a static site). OCR is CPU- and memory-intensive; for larger production workloads, move OCR to a dedicated worker. The MVP persists metadata, extracted text, and analysis results in Firestore, but never uploads the original files.
 
 ## Limitations
 
